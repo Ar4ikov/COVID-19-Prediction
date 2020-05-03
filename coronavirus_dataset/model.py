@@ -2,7 +2,7 @@
 # | Время: 02.05.2020 - 21:07
 from typing import List, Optional
 
-from keras.layers import Input, Dense, Reshape, LSTM, Flatten, Dropout, Embedding, SpatialDropout1D
+from keras.layers import Input, Dense, Reshape, LSTM, Flatten, Dropout, Embedding, SpatialDropout1D, Concatenate
 from keras.activations import relu, sigmoid, tanh, softmax, linear
 from keras.optimizers import RMSprop, Adam, Nadam, Adadelta, SGD, Adagrad, Adamax
 from keras.models import Model, load_model
@@ -160,14 +160,17 @@ class Coronavirus_prediction:
         input_layer = Input(shape=self.input_shape)
 
         x = Flatten()(input_layer)
-        x = Dense(25, activation=relu)(x)
-        x = Dense(45, activation=relu)(x)
-        x = Dense(55, activation=relu)(x)
+        x = Dense(10, activation=relu)(x)
+
+        # TODO: Посмотри в статью, посмотрина формулы, предугадывай параметры и экспоненциальный рост (!!!)
+        x1, x2 = Dense(15, activation=relu)(x), Dense(15, activation=relu)(x)
+        x = Concatenate()([x1, x2])
+
         x = Dense(self.multiply(self.output_shape), activation=relu)(x)
 
         output_layer = Reshape(self.output_shape)(x)
 
         model = Model(input_layer, output_layer, name=self.name)
-        model.compile(optimizer=Adamax(), loss="mean_squared_error", metrics=["accuracy"])
+        model.compile(optimizer=RMSprop(), loss="mean_squared_error", metrics=["accuracy"])
 
         return model

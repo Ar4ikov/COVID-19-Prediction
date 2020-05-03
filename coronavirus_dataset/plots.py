@@ -79,7 +79,7 @@ def show_train(history_):
 
 # Dataset consts
 K = 1000
-TRAIN_DAYS_PAST = 30
+TRAIN_DAYS_PAST = 15
 DAYS_PER_ITERATION = 1
 PREDICT_DAYS_AFTER = 120
 
@@ -142,12 +142,10 @@ fig.set_size_inches(20, 8)
 ax1.bar([x + 1 for x in range(PREDICT_DAYS_AFTER * DAYS_PER_ITERATION)], [x[0] for x in total_cases_predicted], lw=2, color="green", label="Total cases predicted")
 ax1.plot([x + 1 for x in range(PREDICT_DAYS_AFTER * DAYS_PER_ITERATION)], [x[0] for x in total_cases_predicted], lw=2, color="yellow")
 ax1.legend(prop={"size": 15})
-ax1.set_yscale('log')
 
 ax2.bar([x + 1 for x in range(PREDICT_DAYS_AFTER * DAYS_PER_ITERATION)], [x[1] for x in total_cases_predicted], lw=2, color="orange", label="New cases predicted")
 ax2.plot([x + 1 for x in range(PREDICT_DAYS_AFTER * DAYS_PER_ITERATION)], [x[1] for x in total_cases_predicted], lw=2, color="red")
 ax2.legend(prop={"size": 15})
-ax2.set_yscale('log')
 
 plt.show()
 
